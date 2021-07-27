@@ -11,6 +11,7 @@
 
     book: {
       image: '.books-list .book__image',
+      favorite: '.books-list .favorite',
     },
   };
 
@@ -18,7 +19,9 @@
     book: Handlebars.compile(document.querySelector(select.templateOf.book).innerHTML),
   };
 
+  //Variables
   const favoriteBooks = [];
+  const booksWrapper = document.querySelector(select.containerOf.booksPanel);
 
   function render(){
 
@@ -28,34 +31,43 @@
       
       /*create element using utils.createElementFromHTML */
       const elementHTML = utils.createDOMFromHTML(generateHTML);
-      /*find menu container */
-      const menuContainer = document.querySelector(select.containerOf.booksPanel);
-      console.log('menuContainer: ', menuContainer);
+      
       /*add element to menu */
-      menuContainer.appendChild(elementHTML);
+      booksWrapper.appendChild(elementHTML);
     }
   }
   
   function initActions(){
-    const booksList = document.querySelectorAll(select.book.image);  
+     
     //for every element of book image in books-list
-    for(const element of booksList){
-      //add EventListener for every element on double klick
-      element.addEventListener('dblclick', function(event){
-        //prevent default
-        event.preventDefault();
-        //add this element to favoriteBooks
-        const bookId = element.getAttribute('data-id');
-        favoriteBooks.push(bookId);
-        //add class favorite
-        
-        if(bookId != null && bookId != favoriteBooks)element.classList.add('favorite');
-        
-        
-        console.log('ID\'s', favoriteBooks);
-      });
-    }
+      
+    //add EventListener for every element on double klick
+    booksWrapper.addEventListener('dblclick', function(event){
+      //prevent default
+      event.preventDefault();
 
+      const clickedElement = event.target.offsetParent;
+      console.log(clickedElement);
+         
+      //add or remove class favorite
+      if(clickedElement.classList.contains('book__image')){  
+        //get the id of clicked book image
+        const bookId = clickedElement.getAttribute('data-id');
+        if(favoriteBooks.includes(bookId)){
+        
+          const indexOfBookID = favoriteBooks.indexOf(bookId);
+          clickedElement.classList.remove('favorite');
+          favoriteBooks.splice(indexOfBookID, 1);
+        }
+        else{
+
+          clickedElement.classList.add('favorite');
+          favoriteBooks.push(bookId);
+        } 
+      }
+        
+    });
+    
   }
   render();
   initActions();
