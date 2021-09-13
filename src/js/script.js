@@ -26,8 +26,7 @@
       thisBookList.initData();
       thisBookList.getElements();
       thisBookList.render();
-      thisBookList.determineRatingBgc();
-      thisBookList.determineratingWidth();  
+      thisBookList.determineRatingBgc();  
       thisBookList.initActions();
     }
 
@@ -49,7 +48,7 @@
       for(const data of thisBookList.data){
 
         data.ratingBgc = thisBookList.determineRatingBgc(data.rating);
-        data.ratingWidth = thisBookList.determineratingWidth(data.rating);
+        data.ratingWidth = data.rating * 10;
         const generateHTML = templates.book(data);
       
         const elementHTML = utils.createDOMFromHTML(generateHTML);
@@ -127,40 +126,7 @@
       return background;
     }
 
-    determineratingWidth(rating) {
-      let Width = 0;
-      if (rating > 1) {
-        Width = 10;
-      }
-      if (rating > 2) {
-        Width = 20;
-      }
-      if (rating > 3) {
-        Width = 30;
-      }
-      if (rating > 4) {
-        Width = 40;
-      }
-      if (rating > 5) {
-        Width = 50;
-      }
-      if (rating > 6) {
-        Width = 60;
-      }
-      if (rating > 7) {
-        Width = 70;
-      }
-      if (rating > 8) {
-        Width = 80;
-      }
-      if (rating > 9) {
-        Width = 90;
-      }
-      if (rating > 10) {
-        Width = 100;
-      }
-      return Width;
-    }
+    
   }
   const app = {
     initializeProject: function(){
